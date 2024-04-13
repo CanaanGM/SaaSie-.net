@@ -1,11 +1,19 @@
+using GoodHabits.Database;
+using GoodHabits.HabitService;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddSwaggerGen(c=>c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo {Title="GoodHabits.HabitService",Version="v1"}));
+builder.Services.AddTransient<ITenantService, TenantService>();
+builder.Services.AddTransient<IHabitService, HabitService>();
+builder.Services.Configure<TenantSettings>(builder.Configuration.GetSection(nameof(TenantSettings)));
+builder.Services.AddAndMigrateDatabases(builder.Configuration);
+
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -13,7 +21,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json","GoodHabits.HabitService v1"));
 }
 
 app.UseHttpsRedirection();

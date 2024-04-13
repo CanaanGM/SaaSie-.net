@@ -7,7 +7,7 @@
 namespace GoodHabits.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class MultiTenant : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,7 +19,8 @@ namespace GoodHabits.Database.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TenantName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -28,12 +29,12 @@ namespace GoodHabits.Database.Migrations
 
             migrationBuilder.InsertData(
                 table: "Habits",
-                columns: new[] { "Id", "Description", "Name" },
+                columns: new[] { "Id", "Description", "Name", "TenantName" },
                 values: new object[,]
                 {
-                    { 100, "Become a francphone", "Learn French" },
-                    { 101, "Become really fit", "Run a Marathon" },
-                    { 102, "Finish the project", "Write everyday" }
+                    { 100, "Move better", "Learn JeetKuneDo", "CloudSphere" },
+                    { 101, "Become an artiest", "Learn to draw", "CloudSphere" },
+                    { 102, "a blog my man, a blog!", "Write everyday", "CloudSphere" }
                 });
         }
 

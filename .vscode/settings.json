@@ -1,4 +1,8 @@
 {
   "thunder-client.saveToWorkspace": true,
-  "thunder-client.workspaceRelativePath": ".thunder-client"
+  "thunder-client.workspaceRelativePath": ".thunder-client",
+  "dotnet.preferCSharpExtension": true,
+  "csharpextensions.privateMemberPrefix": "_",
+  "csharpextensions.useThisForCtorAssignments": false
+
 }

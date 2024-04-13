@@ -3,16 +3,19 @@ using GoodHabits.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
 namespace GoodHabits.Database.Migrations
 {
-    [DbContext(typeof(GoodHabitDbContext))]
-    partial class GoodHabitDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(GoodHabitsDbContext))]
+    [Migration("20240413121333_MultiTenant")]
+    partial class MultiTenant
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,6 +40,10 @@ namespace GoodHabits.Database.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("TenantName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Habits");
@@ -45,20 +52,23 @@ namespace GoodHabits.Database.Migrations
                         new
                         {
                             Id = 100,
-                            Description = "Become a francphone",
-                            Name = "Learn French"
+                            Description = "Move better",
+                            Name = "Learn JeetKuneDo",
+                            TenantName = "CloudSphere"
                         },
                         new
                         {
                             Id = 101,
-                            Description = "Become really fit",
-                            Name = "Run a Marathon"
+                            Description = "Become an artiest",
+                            Name = "Learn to draw",
+                            TenantName = "CloudSphere"
                         },
                         new
                         {
                             Id = 102,
-                            Description = "Finish the project",
-                            Name = "Write everyday"
+                            Description = "a blog my man, a blog!",
+                            Name = "Write everyday",
+                            TenantName = "CloudSphere"
                         });
                 });
 #pragma warning restore 612, 618

@@ -6,7 +6,7 @@ services:
     ports:
       - "9876:1433"
     volumes:
-      - habit-db-volume:/var/lib/mssqlql/data/
+      - ./habit-db-volume:/var/lib/mssqlql/data/
     env_file:
       - sqlserver/sqlserver.env
   dev-env:
@@ -17,5 +17,6 @@ services:
       - "..:/workspace"
     stdin_open: true # docker run -i
     tty: true # docker run -t
+
 volumes:
   habit-db-volume: null
