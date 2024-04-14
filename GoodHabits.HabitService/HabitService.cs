@@ -1,6 +1,7 @@
 using System.Collections.Immutable;
 using Goodhabits.Database.Entites;
 using GoodHabits.Database;
+using GoodHabits.HabitService.Dtos;
 using Microsoft.EntityFrameworkCore;
 
 namespace GoodHabits.HabitService;
@@ -20,6 +21,8 @@ public class HabitService : IHabitService
     return habit;
   }
 
+
+
   public async Task<IReadOnlyList<Habit>> GetAll()
   {
     return await _habitsDbContext.Habits!.ToListAsync();
@@ -28,5 +31,25 @@ public class HabitService : IHabitService
   public async Task<Habit> GetById(int iden)
   {
     return await _habitsDbContext.Habits.FindAsync(iden);
+  }
+
+  public async Task<Habit?> UpdateById(int id, UpdateHabitDto request)
+  {
+    var habit = await _habitsDbContext.Habits!.FindAsync(id) ;
+    if (habit is null) return null;
+
+    habit.Name = request.Name;
+    habit.Description = request.Description;
+    await _habitsDbContext.SaveChangesAsync();
+    return habit;
+  }
+
+  public async Task DeleteById(int id)
+  {
+    var habit = await _habitsDbContext.Habits!.FindAsync(id)
+      ?? throw new ArgumentException("User Not Found");
+
+    _habitsDbContext.Habits.Remove(habit);
+    await _habitsDbContext.SaveChangesAsync();
   }
 }
